@@ -109,6 +109,23 @@ function AddonManager.load_addon(name_or_url_or_path)
     end
 end
 
+---
+---@param plugin {dir: string}
+local function get_plugin_lib(plugin)
+    local libs = {
+        vim.fs.joinpath(plugin.dir, "lua"),
+    }
+    local types = vim.fs.joinpath(plugin.dir, "types")
+    if fs.is_exists(types) then
+        table.insert(libs, types)
+        local lua = vim.fs.joinpath(types, "lua")
+        if fs.is_exists(lua) then
+            table.insert(libs, lua)
+        end
+    end
+    return libs
+end
+
 ---try to resolve as a nvim plugin
 ---@param name string
 ---@return lua_ls.Addon|nil
@@ -122,10 +139,7 @@ function AddonManager.try_resolve_nvim_plugin(name)
                 description = "nvim runtime + all plugins",
                 library_settings = {
                     ["Lua.workspace.library"] = vim.iter(require("lazy").plugins())
-                        :map(function(plugin)
-                            return vim.fs.joinpath(plugin.dir, "lua")
-                        end)
-                        :totable(),
+                        :map(get_plugin_lib):flatten():totable(),
                 },
                 dependencies = { "nvim", "nvim-config" },
             }
@@ -142,7 +156,7 @@ function AddonManager.try_resolve_nvim_plugin(name)
                 display_name = string.format("%s(nvim plugin)", plugin.name),
                 description = plugin[1],
                 library_settings = {
-                    ["Lua.workspace.library"] = { vim.fs.joinpath(plugin.dir, "lua") },
+                    ["Lua.workspace.library"] = get_plugin_lib(plugin),
                 },
                 dependencies = { "nvim" },
             }
