@@ -5,6 +5,7 @@
 
 - [Addon management capability](https://luals.github.io/wiki/addons/#addon-manager) for [lua language server](https://github.com/luals/lua-language-server)
 - Support neovim/plugins complete
+- Support multiple language servers of lua ([lua_ls](https://github.com/LuaLS/lua-language-server), [emmylua_ls](https://github.com/EmmyLuaLs/emmylua-analyzer-rust))
 
 
 <table>
@@ -43,10 +44,10 @@
 
 ```lua
 {
-    "AbaoFromCUG/lua_ls.nvim",
+    "AbaoFromCUG/luadev.nvim",
     event = "VeryLazy",
     opts= {
-        enable = true,
+        enable = "lua_ls", -- or "emmylua_ls"
         -- install default
         addons = {
             -- addon published on https://github.com/LuaLS/LLS-Addons
@@ -71,13 +72,13 @@ Supported addons
 
 ## [Neoconf.nvim](https://github.com/folke/neoconf.nvim)
 
-`lua_ls.nvim` support neoconf, like it's a native settings supported by lua language server
+`luadev.nvim` support neoconf, like it's a native settings supported by lua language server
 
 `.neoconf.json`
 
 ```json
 {
-  "lua_ls": {
+  "luadev": {
     "addons": [
       "nvim-full",
       "nvim",

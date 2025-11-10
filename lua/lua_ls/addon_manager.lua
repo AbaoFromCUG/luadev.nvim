@@ -5,7 +5,6 @@ local utils = require("lua_ls.utils")
 ---@class (exact) lua_ls.UIConfig
 ---@field size? {width?: number, height?:number}
 
-
 ---@type {[string]: lua_ls.Addon}
 local builtin_addons = {
     nvim = {
@@ -27,7 +26,6 @@ local builtin_addons = {
         dependencies = { "luvit", "nvim" },
     },
 }
-
 
 ---@class lua_ls.AddonManager
 ---@field official_repo_path string
@@ -53,7 +51,7 @@ function AddonManager.setup()
 
     AddonManager.git:cwd(official_repo_path)
     if not fs.is_exists(official_repo_path) then
-        vim.notify("Downloading LLS-Addons...", vim.log.levels.INFO, { tiltle = "Addon Manager of `lua_ls.nvim`" })
+        vim.notify("Downloading LLS-Addons...", vim.log.levels.INFO, { title = "lua_dev.nvim" })
         fs.mkdir(official_repo_path)
         AddonManager.git:clone(AddonManager.official_repo_url, official_repo_path)
     end
@@ -70,9 +68,9 @@ function AddonManager.load_addon(name_or_url_or_path)
     if fs.is_exists(joinpath(official_repo_path, "addons", name_or_url_or_path)) then
         local prefix_path = joinpath(official_repo_path, "addons", name_or_url_or_path)
         local info_path = joinpath(prefix_path, "info.json")
-        local addon_path = vim.fs.joinpath(prefix_path, "module")
-        if not fs.is_exists(vim.fs.joinpath(addon_path, "config.json")) then
-            vim.notify(string.format("Clone submodule %s...", name_or_url_or_path), vim.log.levels.INFO, { tiltle = "Addon Manager of `lua_ls.nvim`" })
+        local addon_path = joinpath(prefix_path, "module")
+        if not fs.is_exists(joinpath(addon_path, "config.json")) then
+            vim.notify(string.format("Clone submodule %s...", name_or_url_or_path), vim.log.levels.INFO, { title = "luadev.nvim" })
             AddonManager.git:submodule_init(addon_path)
             AddonManager.git:submodule_update(addon_path)
         end
@@ -138,8 +136,7 @@ function AddonManager.try_resolve_nvim_plugin(name)
                 display_name = string.format("nvim+all plugins(nvim plugin)"),
                 description = "nvim runtime + all plugins",
                 library_settings = {
-                    ["Lua.workspace.library"] = vim.iter(require("lazy").plugins())
-                        :map(get_plugin_lib):flatten():totable(),
+                    ["Lua.workspace.library"] = vim.iter(require("lazy").plugins()):map(get_plugin_lib):flatten():totable(),
                 },
                 dependencies = { "nvim", "nvim-config" },
             }

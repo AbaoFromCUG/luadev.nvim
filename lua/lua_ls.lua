@@ -3,14 +3,12 @@ local data_path = vim.fn.stdpath("data")
 ---@cast data_path string
 
 ---@class (exact) lua_ls.Config
----@field enable? boolean
 ---@field installDir? string
 ---@field addons? (string|lua_ls.OfficialAddonName|lua_ls.NeovimAddonName)[]
 ---@field ui?  lua_ls.UIConfig
 
 ---@type lua_ls.Config
 local default_config = {
-    enable = true,
     addons = {
         "nvim",
     },
@@ -37,9 +35,6 @@ function M.setup(config)
     end
 
     AddonManager.setup()
-    if M.config.enable then
-        vim.lsp.enable("lua_ls")
-    end
 end
 
 return M

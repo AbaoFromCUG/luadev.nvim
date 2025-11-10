@@ -2,7 +2,6 @@ local utils = require("lua_ls.utils")
 
 local M = {}
 
-
 function M.get_settings()
     local addon_manager = require("lua_ls.addon_manager")
     local addons = vim.tbl_filter(function(addon)
@@ -39,20 +38,6 @@ function M.update_settings()
     if not client then
         return
     end
-
-    -- local settings = M.get_settings()
-    -- local new_settings = utils.merge(client.settings, settings)
-    --
-    -- if vim.deep_equal(new_settings, client.config.settings) then
-    --     return
-    -- end
-    -- print("update settings", vim.inspect(new_settings))
-    -- client.config.settings = new_settings
-    --
-    -- local ok, err = pcall(client.notify, "workspace/didChangeConfiguration", {
-    --     settings = client.config.settings,
-    -- })
-    -- client.sta
 end
 
 return M

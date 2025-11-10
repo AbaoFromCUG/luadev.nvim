@@ -1,3 +1,7 @@
+--[[
+-- lua-language-server(lua_ls): https://github.com/LuaLS/lua-language-server
+--]]
+
 return {
     cmd = { "lua-language-server" },
     filetypes = { "lua" },
@@ -11,5 +15,5 @@ return {
         "selene.yml",
         ".git",
     },
-    settings = require("lua_ls.lsp").get_settings()
+    settings = require("lua_ls.lsp").get_settings(),
 }
