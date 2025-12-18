@@ -47,7 +47,7 @@
     "AbaoFromCUG/luadev.nvim",
     event = "VeryLazy",
     opts= {
-        enable = "lua_ls", -- or "emmylua_ls"
+        enabled_lsp = nil,  -- or "lua_ls", or "emmylua_ls", will call `vim.lsp.enable`
         -- install default
         addons = {
             -- addon published on https://github.com/LuaLS/LLS-Addons

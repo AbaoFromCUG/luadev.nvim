@@ -1,15 +1,15 @@
-local utils = require("lua_ls.utils")
+local utils = require("luadev.utils")
 
 local M = {}
 
 function M.get_settings()
-    local addon_manager = require("lua_ls.addon_manager")
+    local addon_manager = require("luadev.addon_manager")
     local addons = vim.tbl_filter(function(addon)
         return addon.enabled
     end, vim.tbl_values(addon_manager.addons))
     local i = 1
     while i <= #addons do
-        ---@type lua_ls.Addon
+        ---@type luadev.Addon
         local addon = addons[i]
         if addon.dependencies then
             vim.iter(addon.dependencies):each(function(name)
@@ -22,7 +22,7 @@ function M.get_settings()
     end
     local all_settings = vim.iter(addons)
         :map(function(addon)
-            ---@cast addon lua_ls.Addon
+            ---@cast addon luadev.Addon
             return { addon.library_settings, addon.config_settings }
         end)
         :flatten()
@@ -33,7 +33,7 @@ end
 
 ---enable addon
 function M.update_settings()
-    local client = vim.lsp.get_clients({ name = "lua_ls" })[1]
+    local client = vim.lsp.get_clients({ name = "luadev" })[1]
 
     if not client then
         return

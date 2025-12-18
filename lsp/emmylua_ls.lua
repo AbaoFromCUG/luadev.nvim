@@ -13,5 +13,5 @@ return {
         ".git",
     },
     workspace_required = false,
-    settings = require("lua_ls.lsp").get_settings(),
+    settings = require("luadev.lsp").get_settings(),
 }

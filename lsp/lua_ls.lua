@@ -15,5 +15,5 @@ return {
         "selene.yml",
         ".git",
     },
-    settings = require("lua_ls.lsp").get_settings(),
+    settings = require("luadev.lsp").get_settings(),
 }

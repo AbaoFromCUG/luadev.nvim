@@ -1,37 +1,39 @@
-local lua_ls = require("lua_ls")
+local luadev = require("luadev")
+
+local addon_manager = require("luadev.addon_manager")
 
 local cmds = {
     install = {
         complete = function()
             return vim.tbl_map(function(addon)
-                return addon.name
-            end, lua_ls.addon_manager.addons)
+                return addon.id
+            end, vim.tbl_values(addon_manager.addons))
         end,
         execute = function(name)
-            lua_ls.addon_manager:get_addon(name)
+            addon_manager.load_addon(name)
         end,
     },
-    enable = {
-        complete = function()
-            return vim.tbl_map(function(addon)
-                return addon.name
-            end, lua_ls.addon_manager.addons)
-        end,
-        execute = function(name)
-            -- lua_ls.addon_manager.enable({ name })
-        end,
-    },
+    -- enable = {
+    --     complete = function()
+    --         return vim.tbl_map(function(addon)
+    --             return addon.id
+    --         end, vim.tbl_values(addon_manager.addons))
+    --     end,
+    --     execute = function(name)
+    --         -- addon_manager.enable({ name })
+    --     end,
+    -- },
     status = {
         execute = function()
-            vim.cmd("checkhealth lua_ls")
+            vim.cmd("checkhealth luadev")
         end,
     },
 }
 
-vim.api.nvim_create_user_command("Luals", function(opts)
+vim.api.nvim_create_user_command("LuaDev", function(opts)
     local cmd = cmds[opts.fargs[1]]
     if cmd == nil then
-        lua_ls.open()
+        luadev.open()
     else
         table.remove(opts.fargs, 1)
         cmd.execute(unpack(opts.fargs))

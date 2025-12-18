@@ -1,25 +1,25 @@
-local utils = require("lua_ls.utils")
+local utils = require("luadev.utils")
 
 local M = {}
 
 function M.setup()
     local neoconf = require("neoconf")
-    local manager = require("lua_ls.addon_manager")
+    local manager = require("luadev.addon_manager")
     local function load_settings()
-        local new_settings = neoconf.get("lua_ls")
+        local new_settings = neoconf.get("luadev")
         new_settings = utils.flatten(new_settings or {})
-        require("lua_ls").config = vim.tbl_deep_extend("force", require("lua_ls").config, new_settings)
+        require("luadev").config = vim.tbl_deep_extend("force", require("luadev").config, new_settings)
     end
     require("neoconf.plugins").register({
-        name = "lua_ls",
+        name = "luadev",
         on_schema = function(schema)
             local addon_names = vim.iter(manager.addons)
                 :map(function(_, v)
                     return v.id
                 end)
                 :totable()
-            schema:set("lua_ls", {
-                description = "Configuration of lua_ls.nvim",
+            schema:set("luadev", {
+                description = "Configuration of luadev.nvim",
                 type = "object",
                 properties = {
                     addons = {

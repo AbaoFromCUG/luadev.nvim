@@ -1,4 +1,4 @@
----@class lua_ls.Addon
+---@class luadev.Addon
 ---@field id string Identify plugin, includes: dirname(for builtin addon), url(for remote addon), path(for local addon)
 ---@field display_name? string The display name which is defined in info.json, may be empty for some addon
 ---@field description? string A description for this addon
@@ -11,13 +11,13 @@
 ---@field enabled? boolean Whether this addon is enabled
 ---@field dependencies? string[]
 
----@alias lua_ls.NeovimAddonName
+---@alias luadev.NeovimAddonName
 ---| 'nvim'
 ---| 'nvim-config'
 ---| 'nvim-all'
 
 --generated from $git submodule status |awk '{print $2}'|awk -F "/" '{print $2}'|sort
----@alias lua_ls.OfficialAddonName
+---@alias luadev.OfficialAddonName
 ---| 'REFramework-LLS'
 ---| 'RavenscriptIDEA'
 ---| 'RavenscriptIDEA_withRavenM'

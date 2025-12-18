@@ -1,4 +1,4 @@
-local utils = require("lua_ls.utils")
+local utils = require("luadev.utils")
 
 describe("merge", function()
     describe("nil", function()

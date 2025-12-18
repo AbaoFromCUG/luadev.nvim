@@ -1,11 +1,10 @@
-local fs = require("lua_ls.fs")
-local Git = require("lua_ls.git")
-local utils = require("lua_ls.utils")
+local fs = require("luadev.fs")
+local Git = require("luadev.git")
 
----@class (exact) lua_ls.UIConfig
+---@class (exact) luadev.UIConfig
 ---@field size? {width?: number, height?:number}
 
----@type {[string]: lua_ls.Addon}
+---@type {[string]: luadev.Addon}
 local builtin_addons = {
     nvim = {
         id = "nvim",
@@ -27,10 +26,10 @@ local builtin_addons = {
     },
 }
 
----@class lua_ls.AddonManager
+---@class luadev.AddonManager
 ---@field official_repo_path string
----@field git lua_ls.Git
----@field addons { [string]: lua_ls.Addon } key is name or local path or url
+---@field git luadev.Git
+---@field addons table<string, luadev.Addon> key is name or local path or url
 local AddonManager = {
     official_repo_url = "https://github.com/LuaLS/LLS-Addons/",
     git = Git.new(),
@@ -40,7 +39,7 @@ local AddonManager = {
 ---@param name string
 ---@return string
 function AddonManager.repository_path(name)
-    local config = require("lua_ls").config
+    local config = require("luadev").config
     local repository_path = vim.fs.joinpath(config.install_dir, name)
     return repository_path
 end
@@ -60,7 +59,7 @@ end
 
 ---get or load addon
 ---@param name_or_url_or_path string
----@return lua_ls.Addon?
+---@return luadev.Addon?
 function AddonManager.load_addon(name_or_url_or_path)
     local official_repo_path = AddonManager.official_repo_path
     local joinpath = vim.fs.joinpath
@@ -126,7 +125,7 @@ end
 
 ---try to resolve as a nvim plugin
 ---@param name string
----@return lua_ls.Addon|nil
+---@return luadev.Addon|nil
 function AddonManager.try_resolve_nvim_plugin(name)
     if package.loaded["lazy"] then
         if name == "nvim-full" then
@@ -162,7 +161,7 @@ function AddonManager.try_resolve_nvim_plugin(name)
 end
 
 function AddonManager.reload_addons()
-    local config = require("lua_ls").config
+    local config = require("luadev").config
     local offical_addons = vim.fs.find("info.json", { limit = math.huge, path = AddonManager.official_repo_path, type = "file" })
     vim.iter(offical_addons):map(AddonManager.load_official_addon):each(function(addon)
         AddonManager.addons[addon.id] = addon
@@ -188,7 +187,7 @@ end
 
 ---load addon from info.json
 ---@param info_path string
----@return lua_ls.Addon
+---@return luadev.Addon
 function AddonManager.load_official_addon(info_path)
     local dir = vim.fs.dirname(info_path)
     local addon_path = vim.fs.joinpath(dir, "module")
@@ -221,7 +220,7 @@ end
 
 ---local addon from local path
 ---@param config_path string
----@return lua_ls.Addon
+---@return luadev.Addon
 function AddonManager.load_local_addon(config_path)
     local addon_path = vim.fs.dirname(config_path)
     local config = fs.read_addon_config(config_path)

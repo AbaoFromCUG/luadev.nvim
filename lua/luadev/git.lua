@@ -1,9 +1,9 @@
----@class lua_ls.Git
+---@class luadev.Git
 ---@field repository_path string
 local Git = {}
 
 ---Git construction
----@return lua_ls.Git
+---@return luadev.Git
 function Git.new()
     local o = {
         repository_path = nil,
